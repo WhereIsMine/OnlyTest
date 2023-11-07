@@ -3,17 +3,13 @@
 <html lang="zh-cn" style="--olcb-folder-code-block-max-height: 80vh; --cnb-code-bg: rgb(245, 245, 245); --cnb-code-font-size: 12px; --cnb-code-color: rgb(68, 68, 68);"><script id="allow-copy_script">(function agent() {
     let unlock = false
     document.addEventListener('allow_copy', (event) => {
-      unlock = event.detail.unlock
     })
 
     const copyEvents = [
       'copy',
-      'cut',
       'contextmenu',
       'selectstart',
       'mousedown',
-      'mouseup',
-      'mousemove',
       'keydown',
       'keypress',
       'keyup',
