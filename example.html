@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html -->
+<html lang="zh-cn" style="--olcb-folder-code-block-max-height: 80vh; --cnb-code-bg: rgb(245, 245, 245); --cnb-code-font-size: 12px; --cnb-code-color: rgb(68, 68, 68);"><script id="allow-copy_script">(function agent() {
+    let unlock = false
+    document.addEventListener('allow_copy', (event) => {
+      unlock = event.detail.unlock
+    })
+
+    const copyEvents = [
+      'copy',
+      'cut',
+      'contextmenu',
+      'selectstart',
+      'mousedown',
+      'mouseup',
+      'mousemove',
+      'keydown',
+      'keypress',
+      'keyup',
+    ]
+    const rejectOtherHandlers = (e) => {
+      if (unlock) {
+        e.stopPropagation()
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation()
+      }
+    }
+    copyEvents.forEach((evt) => {
+      document.documentElement.addEventListener(evt, rejectOtherHandlers, {
+        capture: true,
+      })
+    })
+  })()</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin-when-cross-origin">
+    <meta name="description" content="克隆下源码对其操作时git报错 fatal: unsafe repository 并提示可以： git config --global --add safe.directory 这个命令是用来将一个安全目录添加到全局的 Git 配置中。具体来说，它会在 Git 的配置文件中添加一行类似于 &amp;quot">
+    <meta property="og:description" content="克隆下源码对其操作时git报错 fatal: unsafe repository 并提示可以： git config --global --add safe.directory 这个命令是用来将一个安全目录添加到全局的 Git 配置中。具体来说，它会在 Git 的配置文件中添加一行类似于 &amp;quot">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>git config --global --add safe.directory - 婷宝_知萌 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="./example_files/o_230514014310_头像1.jpg" type="image/svg+xml">
+    
+    <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs), :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {background: rgb(245, 245, 245);
+        padding: 12px;
+        border: 0.571429px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "Courier New", sans-serif;
+        font-size: 12px</style><link rel="stylesheet" href="./example_files/blog-common.min.css">
+    
+
+    
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="./example_files/cnblogs.css">
+    <link type="text/css" rel="stylesheet" href="./example_files/custom.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./example_files/bundle-simplememory-mobile-pure.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tingbao-zhimeng/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tingbao-zhimeng/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tingbao-zhimeng/wlwmanifest.xml">
+    <script>
+        var currentBlogId = 793343;
+        var currentBlogApp = 'tingbao-zhimeng';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+        var hasCustomScript = true;
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 1;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+        window.enableMacStyleCodeBlock = false;
+    </script>
+        <script>
+            window.currentPostId = 17577237;
+            window.currentPostDateAdded = '2023-07-24 14:47';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="./example_files/blog-common.min.js.下载"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script id="hljs-script" src="./example_files/highlight.min.js.下载" type="text/javascript" async=""></script>
+        <script>updateCustomBlogReferrer();</script>
+    
+
+    
+<meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><meta property="og:image" content="https://img2023.cnblogs.com/blog/3197647/202307/3197647-20230724144414143-1326451094.png"><link rel="stylesheet" type="text/css" href="./example_files/page-common-comArticle.b054622b.css"><link rel="stylesheet" type="text/css" href="./example_files/page-article.b054622b.css"><link rel="stylesheet" type="text/css" href="./example_files/comBefore.b054622b.css"><meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><script src="./example_files/f.txt" async=""></script><link rel="stylesheet" type="text/css" href="./example_files/fonticon.b054622b.css"><link rel="stylesheet" type="text/css" href="./example_files/google-fonts.b054622b.css"><link href="./example_files/font_3206720_qcufvkud8ca.css" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="./example_files/dayNight.b054622b.css" id="baseDarkCss"><link rel="stylesheet" type="text/css" href="./example_files/atom-one-dark-reasonable-css.b054622b.css"></head>
+<body class="skin-simplememory no-navbar" style="overflow: auto;"><div id="dayNightSwitch" class="generalWrapper"> <div class="onOff "> <div class="star star1"></div> <div class="star star2"></div> <div class="star star3"></div> <div class="star star4"></div> <div class="star star5"></div> <div class="star sky"></div> <div class="sunMoon"> <div class="crater crater1"></div> <div class="crater crater2"></div> <div class="crater crater3"></div> <div class="cloud part1"></div> <div class="cloud part2"></div> </div> </div> </div>
+    <a name="top" style="display: none;"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="./example_files/logo.svg" alt="博客园Logo">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.cnblogs.com/" onclick="countClicks(&#39;skin-navbar-sitehome&#39;)">首页</a>
+                </li>
+                <li>
+                    <a href="https://news.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-news&#39;)">新闻</a>
+                </li>
+                <li>
+                    <a href="https://q.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-q&#39;)">博问</a>
+                </li>
+                <li><a href="https://cnblogs.vip/">会员</a></li>
+                <li>
+                    <a href="https://ing.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-ing&#39;)">闪存</a>
+                </li>
+                <li>
+                    <a href="https://edu.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-edu&#39;)">班级</a>
+                </li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search dropdown" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" autocomplete="off">
+                        <button id="zzk_search_button" onclick="window.navbarSearchManager.triggerActiveOption()">
+                            <img id="search_icon" class="focus-hidden" src="./example_files/search.svg" alt="搜索">
+                            <img class="hidden focus-visible" src="./example_files/enter.svg" alt="搜索">
+                        </button>
+                        <ul id="navbar_search_options" class="dropdown-menu quick-search-menu">
+                            <li tabindex="0" class="active" onclick="zzkSearch(event, document.getElementById(&#39;zzk_search_input&#39;).value)">
+                                <div class="keyword-wrapper">
+                                    <img src="./example_files/search.svg" alt="搜索">
+                                    <div class="keyword"></div>
+                                </div>
+                                <span class="search-area">所有博客</span>
+                            </li>
+                                    <li tabindex="1" onclick="zzkBlogSearch(event, &#39;tingbao-zhimeng&#39;, document.getElementById(&#39;zzk_search_input&#39;).value)">
+                                        <div class="keyword-wrapper">
+                                            <img src="./example_files/search.svg" alt="搜索">
+                                            <div class="keyword"></div>
+                                        </div>
+                                        <span class="search-area">当前博客</span>
+                                    </li>
+                        </ul>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="./example_files/newpost.svg" alt="写随笔">
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="./example_files/myblog.svg" alt="我的博客">
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="./example_files/message.svg" alt="短消息">
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="./example_files/lite-mode-on.svg" alt="简洁模式">
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="./example_files/avatar-default.svg" alt="用户头像">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="./example_files/lite-mode-check.svg" class="hide" style="display: none;"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+
+    <!--done-->
+<div id="home" style="margin-top: 304px;">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/tingbao-zhimeng/"><img id="blogLogo" src="./example_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tingbao-zhimeng/">tingbao-zhimeng</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tingbao-zhimeng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A9%B7%E5%AE%9D_%E7%9F%A5%E8%90%8C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/tingbao-zhimeng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 14&nbsp; </span>
+<span id="stats_article_count">文章 - 3&nbsp; </span>
+<span id="stats-comment_count">评论 - 0&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1526">
+1526</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle post-del-title" href="https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html">
+    <span role="heading" aria-level="2">git config --global --add safe.directory</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><a data-fancybox="gallery" href="./example_files/3197647-20230724144414143-1326451094.png"><img src="./example_files/3197647-20230724144414143-1326451094.png"></a></p>
+<p>&nbsp;</p>
+<p>克隆下源码对其操作时git报错 fatal: unsafe repository</p>
+<p>并提示可以：</p>
+<p>git config --global --add safe.directory</p>
+<p>这个命令是用来将一个安全目录添加到全局的 Git 配置中。具体来说，它会在 Git 的配置文件中添加一行类似于 "safe.directory = /path/to/directory" 的配置项，表示将 /path/to/directory 目录添加到 Git 的安全目录列表中，以便在执行 Git 操作时自动忽略该目录下的文件。</p>
+<p><strong>解决思路：</strong></p>
+<p>按提示执行确实可以短暂避免该问题，但治标不治本，且文件很多时需要一个个敲命令。</p>
+<p>产生这一问题的本质原因是下载代码的所有权没有转移，即你下载了别人的代码，别人声明该代码所有权。所以，在修改代码时会报以上问题。因此，我们需要做的并不是声称哪目录是安全的，而是要将代码所有权转移。</p>
+<p>我所查的大部分解决方案即：</p>
+<p>git config --global --add safe.directory "*"</p>
+<p>如果没有成功，尝试下面的方法，在你下载的文件目录下打开terminal</p>
+<p>whoamichown -R cll：cll&nbsp;.</p>
+<p>第一行是查看本机用户名，用户组与用户名一般一致；</p>
+<p>第二行将该目录下的文件所有权转移给该用户名。</p>
+<p>这个问题的产生可能是因为你之前注册过账号，导致账号的混乱，不能更好的识别用户，会有跟好的解决办法，上面的方法只是暂时解决这个问题，所以如果有更好的解决办法希望友友们留言！</p>
+<span class="articleSuffix-flg"> <br><p class="essaySuffix-eof">__EOF__</p> <div id="articleSuffix"> <div class="articleSuffix-bg"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147.78 155.96"> <path d="M10.5,99.81a1.9,1.9,0,0,0-.53-.09,1.66,1.66,0,0,0-1.64,1.65A1.64,1.64,0,0,0,10,103a1.57,1.57,0,0,0,.87-.25l26.76,26.82.45-1.08L11.52,101.91A1.65,1.65,0,0,0,10.5,99.81Zm-.13,2a.57.57,0,0,1-.8,0,.58.58,0,0,1-.17-.41.58.58,0,0,1,.57-.57h0a.57.57,0,0,1,.56.58A.55.55,0,0,1,10.37,101.77Z" style="fill:#c5c9e0"></path><path d="M56.15,117.58H39.06l0-.09a1.65,1.65,0,0,0-1.36-1H37.5a1.65,1.65,0,1,0,1.56,2.19H55.7L92.92,156h41.44v-1.08h-41Zm-18.25.94a.56.56,0,0,1-.79,0,.58.58,0,0,1-.17-.41.57.57,0,0,1,.56-.57h0a.58.58,0,0,1,.57.58A.54.54,0,0,1,37.9,118.52Z" style="fill:#c5c9e0"></path><path d="M23.52,50.32a1.65,1.65,0,0,0,1.55-1.11H55.28l48-48.13h31.06V0H102.85l-48,48.13H25.07a1.64,1.64,0,0,0-2.09-1,1.64,1.64,0,0,0,.54,3.2Zm0-2.21a.57.57,0,0,1,0,1.13.57.57,0,1,1,0-1.13Z" style="fill:#c5c9e0"></path><polygon points="102.86 0 102.86 0 102.86 0 102.86 0" style="fill:#c5c9e0"></polygon><path d="M107.72,12.14h26.64V11.07H107.27L57.4,61H3.09a1.66,1.66,0,0,0-1.45-.86H1.52A1.65,1.65,0,1,0,2.81,63a1.59,1.59,0,0,0,.45-.87H57.85ZM2.05,62.23a.57.57,0,0,1-.8,0,.58.58,0,0,1-.17-.41.57.57,0,0,1,.56-.57h.09a.57.57,0,0,1,.32,1Z" style="fill:#c5c9e0"></path><path d="M134.36,43.22V42.14h-22.3l-9.62,9.63a1.64,1.64,0,0,0-2.19.77,1.61,1.61,0,0,0-.17.71,1.65,1.65,0,1,0,3.29,0,1.61,1.61,0,0,0-.16-.72l9.3-9.32Zm-32.64,10.6a.57.57,0,0,1,0-1.13.57.57,0,0,1,0,1.13Z" style="fill:#c5c9e0"></path><path d="M147,52.3l-9,9H111.48a1.64,1.64,0,0,0-1.61-1.33h-.14a1.65,1.65,0,1,0,1.6,2.41h27.19l9.26-9.29L147,52.3Zm-37.15,9.85a.56.56,0,0,1-.56-.57h0a.56.56,0,0,1,.56-.56h0a.57.57,0,1,1,0,1.13Z" style="fill:#c5c9e0"></path><path d="M66.79,75.35l11,11.06h56.53V85.33H78.27l-11-11.06H49.49L37.12,86.67a1.64,1.64,0,0,0-2.09,1,1.61,1.61,0,0,0-.09.54,1.65,1.65,0,0,0,3.29,0,1.68,1.68,0,0,0-.26-.89l12-12ZM36.58,88.79a.57.57,0,1,1,.57-.56A.57.57,0,0,1,36.58,88.79Z" style="fill:#c5c9e0"></path><path d="M110.61,95.55,92.8,113.4a1.62,1.62,0,1,0,.77.76l17.49-17.53h23.31V95.55ZM92.49,115.28a.56.56,0,0,1-.8,0,.58.58,0,0,1-.17-.41.57.57,0,0,1,.57-.57h0a.58.58,0,0,1,.56.58A.55.55,0,0,1,92.49,115.28Z" style="fill:#c5c9e0"></path><path d="M97.89,122.3H76.62L64.2,109.85a1.65,1.65,0,0,0-.77-2.2,1.77,1.77,0,0,0-.72-.17h-.14a1.65,1.65,0,0,0,.15,3.29,1.58,1.58,0,0,0,.71-.17l12.74,12.77H98.34l17.48-17.52h18.54v-1.08h-19ZM63.12,109.53a.56.56,0,0,1-.8,0,.58.58,0,0,1-.17-.41.57.57,0,0,1,1.14,0A.54.54,0,0,1,63.12,109.53Z" style="fill:#c5c9e0"></path> </svg> </div> <div class="articleSuffix-left"> <a data-fancybox="gallery" href="./example_files/o_230514014310_头像1.jpg"><img src="./example_files/o_230514014310_头像1.jpg"></a> </div> <div class="articleSuffix-right"> <item> <li> <b>本文作者：</b> <a href="https://www.cnblogs.com/tingbao-zhimeng" target="_blank">婷宝_知萌</a> </li> <li> <b>本文链接：</b> <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html" target="_blank">https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html</a> </li> <li> <b>关于博主：</b> 评论和私信会在第一时间回复。或者<a href="https://msg.cnblogs.com/msg/send/tingbao-zhimeng" target="_blank">直接私信</a>我。 </li> <li> <b>版权声明：</b> 本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" alt="BY-NC-SA" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！ </li> <li> <b>声援博主：</b> 如果您觉得文章对您有帮助，可以点击文章右下角<strong><span style="color: #ff0000; font-size: 12pt;">【<a id="post-up" onclick="votePost(17577237,&#39;Digg&#39;)" href="javascript:void(0);">推荐</a>】</span></strong>一下。 </li> </item> </div> <div style="clear:both"></div> </div> </span></div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo">
+
+
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(17577237,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a><button class="custom-btn btn-11" onclick="DiggIt(17577237,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">推荐该文<div class="dot"></div></button>
+        <a id="green_channel_follow" onclick="follow(&#39;5813c506-d356-4dc4-e4a6-08db4f2783ce&#39;);" href="javascript:void(0);">关注我</a><button class="custom-btn btn-12" onclick="follow(&#39;5813c506-d356-4dc4-e4a6-08db4f2783ce&#39;);"><span>关注博主</span><span>关注博主</span></button>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><button class="custom-btn btn-7" onclick="AddToWz(cb_entryId);return false;"><span>收藏本文</span></button>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareManager.wechatShare()"><img src="./example_files/wechat.png" alt=""></a><button class="custom-btn btn-13" onclick="shareManager.wechatShare()">分享微信</button>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/tingbao-zhimeng/" target="_blank"><img src="./example_files/20230514083039.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/tingbao-zhimeng/">婷宝_知萌</a>
+            <br>
+            <a href="https://home.cnblogs.com/u/tingbao-zhimeng/followers/">粉丝 - <span class="follower-count">0</span></a>
+            <a href="https://home.cnblogs.com/u/tingbao-zhimeng/followees/">关注 - <span class="following-count">0</span></a><br>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow" class="follow-tip">
+                <a href="javascript:void(0);" onclick="follow(&#39;5813c506-d356-4dc4-e4a6-08db4f2783ce&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(17577237,&#39;Digg&#39;)"><i class="iconfont icon-zan1"></i>
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(17577237,&#39;Bury&#39;)"><i class="iconfont icon-buzan"></i>
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script>
+</div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17572038.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17572038.html" data-featured-image="https://img2023.cnblogs.com/blog/3197647/202307/3197647-20230721172604175-268651519.png" title="发布于 2023-07-21 17:26"> error  'fun' is assigned a value but never used  @typesc</a>
+    <br>
+    <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17658052.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17658052.html" data-featured-image="" title="发布于 2023-08-25 22:01">微信小程序的渲染层与逻辑层</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc" style="display: block;">posted @ 
+<span id="post-date" data-last-update-days="106.27408602444444" data-date-created="BlogServer.Application.Dto.BlogPost.BlogPostDto" data-date-updated="2023-07-24 14:47" aria-expanded="false">2023-07-24 14:47</span>&nbsp;
+<a href="https://www.cnblogs.com/tingbao-zhimeng/">婷宝_知萌</a>&nbsp;
+阅读(<span id="post_view_count">1342</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=17577237" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(17577237);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: &#39;&#39;, targetType: &#39;blogPost&#39;, targetId: &#39;17577237&#39;, targetLink: &#39;https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html&#39;, title: &#39;git config --global --add safe.directory&#39; })">举报</a>
+</div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script>
+    var cb_entryId = 17577237, cb_entryCreatedDate = '2023-07-24 14:47', cb_postType = 1, cb_postTitle = 'git config --global --add safe.directory';
+    var allowComments = true, cb_blogId = 793343, cb_blogApp = 'tingbao-zhimeng', cb_blogUserGuid = '5813c506-d356-4dc4-e4a6-08db4f2783ce';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");    
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav">
+            <a class="comment-nav-left" href="https://www.cnblogs.com/cmt/p/17520031.html" target="_blank">会员救园</a>
+        <div class="comment-nav-right">
+            <span id="span_refresh_tips"></span><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html#top">返回顶部</a>
+        </div>
+    </div>
+    <div id="comment_form_container"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login(&#39;!comments&#39;);">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"><a href="https://click.aliyun.com/m/1000382715/" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-阿里云-金秋云创季&#39;})">【推荐】阿里云金秋云创季：云服务器新秀99元/年，百款产品满减折上折</a><br><a href="https://www.cnblogs.com/cmt/p/17797964.html" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-天翼云&#39;})">【推荐】秋风送爽，又是一年双11：一文解读天翼云全民上云节玩法攻略</a><br><a href="https://www.cnblogs.com/cmt/p/17520031.html" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-会员救园&#39;})">【推荐】会员救园：园子走出困境的唯一希望，到年底有多少会员</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card" style="display: none;">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px; display: none;" data-google-query-id="CKiTx8_9sYIDFYVEwgUd8eIL6Q"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none; width: 300px; height: 0px;"></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/cplemom/p/17803265.html" target="_blank">记录一次内存泄漏排查过程</a>
+    <br>
+· <a href="https://www.cnblogs.com/lindexi/p/17810633.html" target="_blank">dotnet 探究 SemanticKernel 的 planner 的原理</a>
+    <br>
+· <a href="https://www.cnblogs.com/f-ck-need-u/p/17806881.html" target="_blank">一篇文章玩透 awk</a>
+    <br>
+· <a href="https://www.cnblogs.com/artech/p/byte-array-pool.html" target="_blank">实现一个极简的字节数组对象池</a>
+    <br>
+· <a href="https://www.cnblogs.com/huangxincheng/p/17802523.html" target="_blank">记一次 .NET 某工厂无人车调度系统 线程爆高分析</a>
+    <br>
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>阅读排行：</b>
+    <br>
+ ·          <a href="https://www.cnblogs.com/thisiswhy/p/17812428.html" target="_blank">听我一句劝，业务代码中，别用多线程。</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/sheng_chao/p/17812296.html" target="_blank">.net core 到底行不行！超高稳定性和性能的客服系统：性能实测</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/binghe001/p/17814654.html" target="_blank">生产真实案例：震惊，几条SQL把服务器干崩了，事后还大言不惭！</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/cplemom/p/17803265.html" target="_blank">记录一次内存泄漏排查过程</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/Can-daydayup/p/17811656.html" target="_blank">基于.NET、Uni-App开发支持多平台的小程序商城系统 - CoreShop</a>
+        <br>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><div class="main-header" id="main-header" style="height: 40vh;"> <div id="nhBannerAnimation"> <ul class="circles"> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> </ul> </div> <div class="vertical"> <div class="main-header-content inner" style="max-width: 100vw;"> <h1 class="page-title" id="homeTopTitle" style="display: none;"><span></span></h1> <h2 class="page-description" id="hitokoto"></h2> <h3 class="page-author" id="hitokotoAuthor"></h3> <h1 class="sb-title" id="sbTitle"> <span id="sbTitleText" style="color:#fff">
+    git config --global --add safe.directory
+    
+
+
+</span> <span id="sbTitleConsole" style="visibility: hidden;">_</span> </h1> <p class="article-info" id="articleInfo"><p class="article-info-text"><span class="postMeta"><i class="iconfont icon-time1"></i>23/07/24 14:47<i class="iconfont icon-browse"></i>1342<i class="iconfont icon-interactive"></i>0<i class="iconfont icon-hot"></i>0<br><i class="iconfont icon-wenzi4"></i>878<i class="iconfont icon-shangwutubiao-"></i>1:45 ~ 2:55</span></p></p> </div> </div> <a class="scroll-down" href="javascript:void(0);" data-offset="-45" style="display: none;"> <span class="hidden">Scroll Down</span> <i class="scroll-down-icon iconfont icon-fanhui"></i> </a> <div class="part" style="--x: 0vw; transform: translate(0px, 0px);"><div class="section"><img src="https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072329_1.jpg"></div></div><div class="part" style="--x: -20vw; transform: translate(0px, 0px);"><div class="section"><img src="https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072329_1.jpg"></div></div><div class="part" style="--x: -40vw; transform: translate(0px, 0px);"><div class="section"><img src="https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072329_1.jpg"></div></div><div class="part" style="--x: -60vw; transform: translate(0px, 0px);"><div class="section"><img src="https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072329_1.jpg"></div></div><div class="part" style="--x: -80vw; transform: translate(0px, 0px);"><div class="section"><img src="https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072329_1.jpg"></div></div></div><div class="container"> <div class="menu-wrap optiscroll is-enabled" id="menuWrap" style="display: none; background-image: url(&quot;https://cdn.cnblogs.com/gh/BNDong/Cnblogs-Theme-SimpleMemory@v2.1.0/dist/images/5fcc0053d3e1e4c884df.png&quot;);"><div class=" optiscroll-content" style="right: -3px; bottom: -3px;"> <div class="close-button" id="close-button"> <i class="iconfont icon-close"></i> </div> <div class="sidebar-header"> <i class="iconfont icon-guangbo"></i> &nbsp;&nbsp; <span class="sidebar-title-msg">欢迎访问本博客~</span> </div> <div class="sidebar-profile"> <div class="user-pic" id="menuBlogAvatar"><img class="img-responsive img-rounded" alt="用户头像" src="./example_files/o_230514014310_头像1.jpg"></div> <div class="sidebar-userinfo" id="introduce">
+    昵称：
+    <a href="https://home.cnblogs.com/u/tingbao-zhimeng/">
+        婷宝_知萌
+    </a>
+    <br>
+    园龄：
+    <a href="https://home.cnblogs.com/u/tingbao-zhimeng/" title="入园时间：2023-05-14">
+        5个月
+    </a>
+    <br>
+    粉丝：
+    <a class="follower-count" href="https://home.cnblogs.com/u/tingbao-zhimeng/followers/">
+        0
+    </a>
+    <br>
+    关注：
+    <a class="folowing-count" href="https://home.cnblogs.com/u/tingbao-zhimeng/followees/">
+        0
+    </a>
+    <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow(&#39;5813c506-d356-4dc4-e4a6-08db4f2783ce&#39;)">+加关注</a></div>
+    
+</div> </div> <div class="sidebar-search"> <div class="sidebar-search-div"> <div class="input-group"> <span id="sb-sidebarSearchBox"><div id="sb_widget_my_zzk" class="div_my_zzk"><input id="q" type="text" autocomplete="off" placeholder="找找看..." onkeydown="return zzk_go_enter(event);" class="input_my_zzk form-control search-menu"></div></span> <div class="input-group-append"> <span class="input-group-text"> <i class="iconfont icon-sousuo2"></i> </span> </div> </div> </div> </div> <div class="customize-nav"></div> <div id="calendar-box" style="display: block;"><div id="blog-calendar" style="visibility: visible;">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2023/10/07&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2023年11月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2023/12/07&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        4
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            5
+                        </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            11
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            18
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            25
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            2
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            9
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div> <div class="sidebar-menu" id="customize-sidebar-menu"> <ul></ul> </div> <div class="sidebar-menu"> <ul> <li class="ng-star-inserted sidebar-dropdown"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-collection_fill"></i> <span class="sidebar-dropdown-title">积分排名</span> </a> <div class="sidebar-submenu" id="sb-sidebarScorerank"></div> </li> <li class="ng-star-inserted sidebar-dropdown"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-time_fill"></i> <span class="sidebar-dropdown-title">最新随笔</span> </a> <div class="sidebar-submenu" id="sb-sidebarRecentposts"></div> </li> <li class="ng-star-inserted sidebar-dropdown" style="display: list-item;"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-label_fill"></i> <span class="sidebar-dropdown-title">我的标签</span> </a> <div class="sidebar-submenu" id="sb-toptags"><ul><li><a href="https://www.cnblogs.com/tingbao-zhimeng/tag/%E5%89%8D%E7%AB%AF/">前端(8)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/tag/java%E5%AD%A6%E4%B9%A0/">java学习(4)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/tag/git%20/">git (2)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/tag/git/">git(2)</a></li></ul></div> </li> <li class="ng-star-inserted sidebar-dropdown" style="display: list-item;"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-fenleicur"></i> <span class="sidebar-dropdown-title">随笔分类</span> </a> <div class="sidebar-submenu" id="sb-classify"><ul><li><a href="https://www.cnblogs.com/tingbao-zhimeng/category/2309694.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">前端(0)</a></li></ul></div> </li> <li class="ng-star-inserted sidebar-dropdown"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-fenlei"></i> <span class="sidebar-dropdown-title">文章分类</span> </a> <div class="sidebar-submenu" id="sb-ArticleCategory"></div> </li> <li class="ng-star-inserted sidebar-dropdown" style="display: list-item;"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-browse_fill"></i> <span class="sidebar-dropdown-title">阅读排行</span> </a> <div class="sidebar-submenu" id="sb-topview"><ul><li><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html">git config --global --add safe.directory(1342)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17413281.html">在Vue2项目中遇到的问题汇总(56)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17706322.html">img的srcset属性的作用(27)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17707001.html">react____tab点击切换状态的实现(20)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/p/17399789.html">数组的逆序输出(13)</a></li></ul></div> </li> <li class="ng-star-inserted sidebar-dropdown"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-like_fill"></i> <span class="sidebar-dropdown-title">推荐排行</span> </a> <div class="sidebar-submenu" id="sb-topDiggPosts"></div> </li> <li class="ng-star-inserted sidebar-dropdown"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-pinglunzu"></i> <span class="sidebar-dropdown-title">最新评论</span> </a> <div class="sidebar-submenu" id="sb-recentComments"></div> </li> <li class="ng-star-inserted sidebar-dropdown" style="display: list-item;"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-task_fill"></i> <span class="sidebar-dropdown-title">随笔档案</span> </a> <div class="sidebar-submenu" id="sb-record"><ul><li><a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/09.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年9月(4)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/08.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年8月(1)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/07.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年7月(3)</a></li><li><a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/05.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年5月(6)</a></li></ul></div> </li> <li class="ng-star-inserted sidebar-dropdown"> <a href="javascript:void(0)" class="ng-star-inserted sidebar-dropdown-box"> <i class="iconfont icon-document_fill"></i> <span class="sidebar-dropdown-title">文章档案</span> </a> <div class="sidebar-submenu" id="sb-articlearchive"></div> </li> </ul> </div> <div class="sidebar-footer"><div class="dropdown"> <a href="https://www.cnblogs.com/tingbao-zhimeng" target="_self"> <i class="iconfont icon-homepage_fill"></i>首页 </a> </div> <div class="dropdown"> <a href="https://msg.cnblogs.com/send/tingbao-zhimeng" target="_blank"> <i class="iconfont icon-zhifeiji"></i>联系 </a> </div> <div class="dropdown"> <a href="javascript:void(0)" onclick="$(&quot;#blog_nav_rss&quot;).trigger(&quot;click&quot;)" data-rss="https://www.cnblogs.com/tingbao-zhimeng/rss/"> <i class="iconfont icon-qinmifu"></i>订阅 </a> </div> <div class="dropdown"> <a href="https://i.cnblogs.com/" target="_blank"> <i class="iconfont icon-setup_fill"></i>管理 </a> </div></div> <div class="morph-shape" id="morph-shape" style="display:none" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z"> <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none"> <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"></path> <desc>Created with Snap</desc><defs></defs></svg> </div> </div><div class="optiscroll-v"><b class="optiscroll-vtrack"></b></div><div class="optiscroll-h"><b class="optiscroll-htrack"></b></div></div> <button class="menu-button" id="open-button">MENU</button> <div class="content-wrap" id="content-wrap"></div> </div>
+    <h3 class="catListTitle">公告</h3>
+<div id="blog-news"><div id="progressBar"><div id="top-progress-bar" style="position: relative; top: 0px; left: 0px; right: 0px; background-color: rgb(119, 182, 255); height: 2px; width: 13%; transition: width 0.2s ease 0s, opacity 0.6s ease 0s; opacity: 1;"></div></div><div id="rightMenu"> <div id="rtaDirectory" class="rightMenuItem" style=""> <span class="rightMenuSpan rtaDirectorySpan"> 文章目录 </span> <i banmv="" class="iconfont icon-mulu"></i> </div> <div id="rightMenuHome" class="rightMenuItem" style="" clickflg="true"> <span class="rightMenuSpan"> 访问主页 </span> <i class="iconfont icon-home"></i> </div> <span class="hideRightMenu"> <div id="rightDiggit" class="rightMenuItem" clickflg="false" style="" onclick="votePost(17577237,&#39;Digg&#39;)"> <span class="rightMenuSpan rightDiggitSpan">0</span> <i class="iconfont icon-zan1"></i> </div> <div id="rightBuryit" class="rightMenuItem" clickflg="false" style="" onclick="votePost(17577237,&#39;Bury&#39;)"> <span class="rightMenuSpan rightBuryitSpan">0</span> <i class="iconfont icon-buzan"></i> </div> <div id="rightDashang" class="rightMenuItem" clickflg="false" style="display:none"> <span class="rightMenuSpan rightDanshanSpan"> <div class="ds-pay"> <div class="ds-alipay" style="display:none"> <img \=""> <span>Alipay</span> </div> <div class="ds-wecat" style="display:none"> <img \=""> <span>WeChat</span> </div> </div> </span> <i class="iconfont icon-dashang2"></i> </div> <div id="rightGzh" class="rightMenuItem" clickflg="false" style="display:none"> <span class="rightMenuSpan rightGzhSpan"> <div class="ds-pay"> <div class="ds-gzh"> <img><span>qrCode</span> </div> </div> </span> <i class="iconfont icon-erweima4"></i> </div> <div id="attention" class="rightMenuItem" clickflg="false" onclick="follow(&#39;5813c506-d356-4dc4-e4a6-08db4f2783ce&#39;)"> <span class="rightMenuSpan attentionSpan">关注</span> <i class="iconfont icon-dianzan"></i> </div> </span> <div id="rightMenuSite" class="rightMenuItem" clickflg="true"> <span class="rightMenuSpan"> 点击开启 </span> <i banmv="" class="iconfont icon-shezhi3" style="transform: rotate(285deg); transform-origin: 50% 50%;"></i> </div> <div id="toUpDown" class="rightMenuItem" data="down"> <span class="rightMenuSpan toUpDownSpan">跳至底部</span> <div id="toUpDownI" style="transform: rotate(-180deg); transform-origin: 50% 50%;"> <i banmv="" class="iconfont icon-zhiding"></i> </div> </div> </div><div id="loading" style="display: none;"></div>    
+    <div id="sidebar_news_content"><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['1']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['6']();</script><script defer="">window['__document_write_ajax_callbacks__']['2']();</script>
+<div id="profile_block">
+    昵称：
+    <a href="https://home.cnblogs.com/u/tingbao-zhimeng/">
+        婷宝_知萌
+    </a>
+    <br>
+    园龄：
+    <a href="https://home.cnblogs.com/u/tingbao-zhimeng/" title="入园时间：2023-05-14">
+        5个月
+    </a>
+    <br>
+    粉丝：
+    <a class="follower-count" href="https://home.cnblogs.com/u/tingbao-zhimeng/followers/">
+        0
+    </a>
+    <br>
+    关注：
+    <a class="folowing-count" href="https://home.cnblogs.com/u/tingbao-zhimeng/followees/">
+        0
+    </a>
+    <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow(&#39;5813c506-d356-4dc4-e4a6-08db4f2783ce&#39;)">+加关注</a></div>
+    <script type="text/javascript">window['__document_write_ajax_callbacks__']['7']();</script><script>window['__document_write_ajax_callbacks__']['3']();</script>
+</div>
+</div>
+</div>
+<script>loadBlogNews();</script>
+
+ 
+</div>
+<div id="sidebar_c3"></div>
+			<script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div class="mySearch my-search">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    <li><a href="https://www.cnblogs.com/tingbao-zhimeng/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/tingbao-zhimeng/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/tingbao-zhimeng/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/tingbao-zhimeng/comments" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/tingbao-zhimeng/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+    <h3 class="catListTitle"><a href="https://www.cnblogs.com/tingbao-zhimeng/tag/" class="sidebar-card-title-a">我的标签</a></h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/tingbao-zhimeng/tag/%E5%89%8D%E7%AB%AF/">前端<span class="tag-count">(8)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tingbao-zhimeng/tag/java%E5%AD%A6%E4%B9%A0/">java学习<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tingbao-zhimeng/tag/git%20/">git <span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tingbao-zhimeng/tag/git/">git<span class="tag-count">(2)</span></a>
+        </li>
+    
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+    <a class="sidebar-card-title-a" href="https://www.cnblogs.com/tingbao-zhimeng/post-categories">随笔分类</a>
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tingbao-zhimeng/category/2309694.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">前端(0)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/09.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年9月(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/08.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年8月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/07.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年7月(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tingbao-zhimeng/archive/2023/05.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年5月(6)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_imagecategory" class="catListImageCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+相册
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tingbao-zhimeng/gallery/2309232.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="nofollow noopener noreferrer" target="">传入的图片_头像(1)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/tingbao-zhimeng/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17577237.html">
+                            1. git config --global --add safe.directory(1342)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17413281.html">
+                            2. 在Vue2项目中遇到的问题汇总(56)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17706322.html">
+                            3. img的srcset属性的作用(27)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17707001.html">
+                            4. react____tab点击切换状态的实现(20)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tingbao-zhimeng/p/17399789.html">
+                            5. 数组的逆序输出(13)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"></div><div id="sidebar_recentcomments" class="sidebar-block"></div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer"> <div class="footer-image" id="footerStyle1" style="display:none"></div> <footer id="footerStyle2" style=""> <footer-background> <figure class="clouds" style="background: url(&quot;https://cdn.cnblogs.com/gh/BNDong/Cnblogs-Theme-SimpleMemory@v2.1.0/dist/images/0ff63a3006d8a2821be2.webp&quot;) repeat-x;"></figure> <figure class="background" style="background: url(&quot;https://cdn.cnblogs.com/gh/BNDong/Cnblogs-Theme-SimpleMemory@v2.1.0/dist/images/af2701cbb4196bedb254.webp&quot;) repeat-x;"></figure> <figure class="foreground" style="background: url(&quot;https://cdn.cnblogs.com/gh/BNDong/Cnblogs-Theme-SimpleMemory@v2.1.0/dist/images/30b4f3f93333bef2cf56.webp&quot;) repeat-x;"></figure> </footer-background> </footer> <div class="footer-box"> <div class="footer-text" style="display: none; padding-bottom: 0px; border-bottom: none; margin-bottom: 0px;"> [ ##textLeft## <span class="footer-text-icon"> <span class="iconfont ##iconFont##" style="color:##iconColor##;font-size:##iconSize##"></span> </span> ##textRight## ] </div> <div> <span id="blogRunTimeSpan">This blog has running : 177 d 13 h 43 m 16 s</span> <span class="my-face">ღゝ◡╹)ノ♡</span> </div> <div id="linksHtml" style="display:none">##linksHtml##</div> <div id="cnzzInfo" style="display:none"> <div id="cnzzProtocol" style="display:none"> <span class="id_cnzz_stat_icon" id="cnzz_stat_icon_这里换成你的cnzz id"></span> <script src="./example_files/z_stat.php"></script> </div> ##cnzzHtml## </div> <div>
+		
+Copyright © 2023 婷宝_知萌
+Powered by .NET 7.0 on Kubernetes
+
+
+
+	</div> </div></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8Eg9kra6YURKsOjJwROiT4uEh3l4J5zrk3PHd2-dAncKKPd4feChlOiIugdVeSj7MW-1g6uYlSh2fF1Kqqcb1s1ztn_6BXTzYOH0evpEN2lQI9uva6wrmnpegATlPF9O5oK-2Wg3CuXZ3X6kOnbhTHs">
+    <script async="" src="./example_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-M95P3TTWJZ');
+</script>
+<script defer="" src="./example_files/hm.js.下载"></script>
+
+<script type="text/javascript">
+    window.cnblogsConfig = {
+        info: {
+            // 用户名
+            name: '婷宝_知萌',
+            // 入园时间，年-月-日
+            startDate: '2023-5-14',
+            // 用户头像
+            avatar: 'https://images.cnblogs.com/cnblogs_com/blogs/793343/galleries/2309232/o_230514014310_%E5%A4%B4%E5%83%8F1.jpg',
+            // 博客图标
+            blogIcon: 'https://images.cnblogs.com/cnblogs_com/blogs/793343/galleries/2309232/o_230514014310_%E5%A4%B4%E5%83%8F1.jpg',
+        },
+
+        fontIconExtend: "//at.alicdn.com/t/font_3206720_qcufvkud8ca.css",
+        sidebar: { // 列表数据 ['导航名称', '链接', 'icon']
+          navList: [
+            // 自己添加的可以没有
+              // ['微信号', 'https://img2022.cnblogs.com/blog/1703421/202205/1703421-20220501215013018-404346350.jpg'],
+              // ['B站首页', 'https://space.bilibili.com/443654017?spm_id_from=333.999.0.0'],
+
+            ],
+        },
+        banner: {
+          home: {
+            titleSource: 'one',
+          },
+          article: {
+            background: [
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072329_1.jpg",
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072336_2.jpg",
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072344_3.jpg",
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072352_4.jpg",
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072404_5.jpg",
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072419_6.jpg",
+                "https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115043/o_220226072426_7.jpg",
+            ],
+          }, 
+        },
+        animate: {
+          homeBanner: {
+            enable: true,
+            options: {
+              radius: 15,
+            },
+          },
+          background: {
+            enable: true,
+          },
+          bannerImages: {
+            enable: true,
+          },
+        },
+        progressBar: {
+          color   : '#77b6ff',
+        },
+        links: {
+          page: [
+            {
+              name: '小迪渗透', // 昵称
+              introduction: 'IT技术类博客', // 简介
+              avatar: 'https://blog.dbnuo.com/images/avatar.gif', // 头像
+              url: 'http://www.xiaodi8.com/' // 友链地址
+            },
+            {
+              name: 'Beczou\'s Blog',
+              introduction: 'IT技术类博客',
+              avatar: 'https://blog.dbnuo.com/images/avatar.gif',
+              url: 'http://www.beczou.com/'
+            },
+          ],
+        },
+        rtMenu: {
+          downScrollDom: '#blog_post_info_block',
+        },
+        switchDayNight: {
+          enable: true,
+          auto: {
+              enable: true
+          }
+        },
+        code: {
+          type: 'hljs',
+          options: {
+            maxHeight: '70vh',
+          },
+        },
+        cnzz: "这里换成你的cnzz id",     
+    }
+    window.cnblogsConfig.bookList = [
+      {
+          title: '在读',
+          books: [
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226033600_29120617-1_b_10.jpg',
+                  name: 'JavaScript高级程序设计 第4版',
+                  formerName: '',
+                  author: '马特·弗里斯比',
+                  translator: '',
+                  press: '人民邮电出版社',
+                  year: '2020-09',
+                  score: 4,
+              },
+          ]
+      },
+            {
+          title: '待读',
+          books: [
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226041452_9265169-1_u_5.jpg',
+                  name: 'Head First Java',
+                  formerName: '',
+                  author: '塞若',
+                  translator: '',
+                  press: '中国电力出版社',
+                  year: '2007-02',
+                  score: 4,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226041716_1814476496-1_u_1.jpg',
+                  name: 'Java编程思想（第4版）',
+                  formerName: '',
+                  author: 'Bruce Eckel',
+                  translator: '',
+                  press: '机械工业出版社',
+                  year: '2007-06',
+                  score: 4,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226044159_%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220226124119.png',
+                  name: '乌云代码审计1000个案例',
+                  formerName: '',
+                  author: '乌云',
+                  translator: '',
+                  press: '乌云',
+                  year: '',
+                  score: 4,
+              },
+          ]
+      },
+      {
+          title: '已读',
+          books: [
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226043829_%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220226123747.png',
+                  name: '京东src小课堂1-140',
+                  formerName: '',
+                  author: '京东SRC',
+                  translator: '',
+                  press: '电子版文章',
+                  year: '2019-07',
+                  score: 4,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226040347_29298286-1_u_1.jpg',
+                  name: 'Web安全漏洞及代码审计（微课版）',
+                  formerName: '',
+                  author: '郭锡泉',
+                  translator: '',
+                  press: '电子工业出版社',
+                  year: '2021-08',
+                  score: 1,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226035922_11074789643-3_u_1.jpg',
+                  name: '网络安全：攻防技术实战',
+                  formerName: '',
+                  author: '闵海钊',
+                  translator: '',
+                  press: '电子工业出版社',
+                  year: '2020-09',
+                  score: 4,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226034450_23825947-1_u_1.jpg',
+                  name: '代码审计：企业级Web代码安全架构',
+                  formerName: '',
+                  author: '尹毅',
+                  translator: '',
+                  press: '机械工业出版社',
+                  year: '2015-12',
+                  score: 4,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226042102_29131665-1_u_3.jpg',
+                  name: 'Python安全攻防：渗透测试实战指南',
+                  formerName: '',
+                  author: '吴涛',
+                  translator: '',
+                  press: '机械工业出版社',
+                  year: '2020-09',
+                  score: 1,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226034158_615023425-1_u_4.jpg',
+                  name: '刻意练习：如何从新手到大师',
+                  formerName: '',
+                  author: '安德斯·艾利克森',
+                  translator: '',
+                  press: '机械工业出版社',
+                  year: '2021-04',
+                  score: 3,
+              },
+              {
+                  cover: 'https://images.cnblogs.com/cnblogs_com/blogs/737239/galleries/2115021/o_220226043205_23331717-1_u_2.jpg',
+                  name: 'Metasploit渗透测试魔鬼训练营',
+                  formerName: '',
+                  author: '诸葛建伟',
+                  translator: '',
+                  press: '机械工业出版社',
+                  year: '2013-09',
+                  score: 4,
+              },
+          ]
+      },
+  ];
+
+</script><script type="text/javascript">getFollowStatus('5813c506-d356-4dc4-e4a6-08db4f2783ce');</script><iframe src="./example_files/container.html" style="visibility: hidden; display: none;"></iframe><div style="z-index: 998; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; flex-direction: column; align-items: center; justify-content: center">
+<div style="background: #fff;padding: 30px; margin: 30px; border-radius: 16px;">
+  <div style="width: 200px; height: 200px; background: rgba(255, 255, 255, 0.8); position: absolute; top: -100px; right: -100px; border-radius: 100px"></div>
+  <div style="text-align: center; font-size: 18px; margin-bottom: 10px;">点击右上角即可分享</div>
+  <img src="./example_files/35695-20230906145857937-1471873834.gif" alt="微信分享提示">
+</div>   
+    </div><canvas id="bgCanvas" width="1415" height="759" style="display: block; position: fixed; margin: 0px; padding: 0px; border: 0px; outline: 0px; left: 0px; top: 0px; width: 100%; height: 100%; z-index: -1;"></canvas><iframe src="./example_files/aframe.html" width="0" height="0" style="display: none;"></iframe></body></html>
