@@ -17,6 +17,7 @@
     const rejectOtherHandlers = (e) => {
       if (unlock) {
         e.stopPropagation()
+
         if (e.stopImmediatePropagation) e.stopImmediatePropagation()
       }
     }
